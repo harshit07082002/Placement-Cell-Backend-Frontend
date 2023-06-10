@@ -56,7 +56,7 @@ const RegisterPage = () => {
   const login = async (payload) => {
     console.log('sending request',payload);
     changeLoadingState(true);
-    let url = '${process.env.REACT_APP_BACKEND}/api/v1/student/signin'
+    let url = `${process.env.REACT_APP_BACKEND}/api/v1/student/signin`
     if (isAdmin) {
       url = url.replace('student','admin');
     }

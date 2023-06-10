@@ -11,6 +11,23 @@ const AdminHomePage = () => {
   const [stats, changeStats] = useState({registered_students: undefined, placement_coordinators: undefined,
     average_package: undefined, highest_package: undefined, lowest_package: undefined, average_package: undefined, students_placed: 0});
   const [isLoading, changeLoadingState] = useState(false);
+  const [minPackage, changeMinPackage] = useState(Number.MAX_VALUE);
+  const [maxPackage, changeMaxPackage] = useState(Number.MIN_VALUE);
+  const [avgPackage, changeAvgPackage] = useState(0);
+  let noOfPackages = 0;
+
+  const calculatePackageDetails = (CTC) => {
+    changeMinPackage(Math.min(minPackage, CTC));
+    changeMaxPackage(Math.max(maxPackage, CTC));
+    changeAvgPackage(state => {
+      let x = state;
+      x *= noOfPackages;
+      x += CTC;
+      noOfPackages++;
+      x /= noOfPackages;
+      return x;
+    });
+  }
 
   const calculateStats = async () => {
     const cookies = new Cookies();
@@ -24,20 +41,22 @@ const AdminHomePage = () => {
     })
     const registered_students = data.data.length;
     let students_placed = 0;
-    data.data.students.forEach(element => {
+    const student = data.data.students;
+    for (let i = 0; i < student.length; i++) {
       let placed = false;
-      element.companies.forEach(student => {
-        if (student.status === 'Selected') {
+      for (let j = 0; j < student[i].companies.length; j++) {
+        if (student[i].companies[j].status === 'Selected') {
+          console.log('h');
           placed = true;
+          calculatePackageDetails(student[i].companies[j].ctc);
         }
-      });
+      }
       if (placed) {
         students_placed++;
       }
-    });
+    }
     students_placed*=100;
     students_placed/=registered_students;
-    console.log(students_placed, registered_students);
     changeStats(state => {
       return {registered_students,students_placed};
     })
@@ -67,15 +86,17 @@ const AdminHomePage = () => {
         </Card>
         <Card className="details-container">
           <h5>Average Package</h5>
-          <h6>₹ 10 LPA</h6>
+          <h6>₹ {avgPackage} LPA</h6>
         </Card>
         <Card className="details-container">
           <h5>Highest Package</h5>
-          <h6>₹ 10 LPA</h6>
+          {maxPackage!==Number.MIN_VALUE && <h6>₹ {maxPackage} LPA</h6>}
+          {maxPackage===Number.MIN_VALUE && <h6>₹ ---</h6>}
         </Card>
         <Card className="details-container">
           <h5>Lowest Package</h5>
-          <h6>₹ 10 LPA</h6>
+          {minPackage!==Number.MAX_VALUE && <h6>₹ {minPackage} LPA</h6>}
+          {minPackage===Number.MAX_VALUE && <h6>₹ ---</h6>}
         </Card>
         <Card className="details-container">
           <h5>Students Placed</h5>
