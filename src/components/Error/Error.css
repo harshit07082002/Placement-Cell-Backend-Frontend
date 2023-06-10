@@ -1,0 +1,17 @@
+.error-message{
+  background-color: white;
+  color: red;
+  border: 1px solid red;
+  padding: 1rem;
+  position: fixed;
+  bottom: 2rem;
+  min-width: 25vw;
+  width: fit-content;
+  text-align: center;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+}

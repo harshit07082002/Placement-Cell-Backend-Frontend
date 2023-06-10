@@ -1,0 +1,36 @@
+#nav-bar {
+  display: flex;
+  margin-right: 3rem;
+  flex-wrap: wrap;
+  text-decoration: none;
+}
+.underline {
+  text-decoration: none;
+}
+.me-auto {
+  display: flex;
+  justify-content: space-evenly;
+}
+.nav-item{
+  margin-top: 0 !important;
+  height: 2.5rem !important;
+}
+.comp {
+  margin-right: 2rem;
+}
+.my-profile{
+  display: flex;
+}
+.my-profile img{
+  width: 2rem;
+  height: 2rem;
+}
+@media screen and (max-width: 510px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+  #nav-bar{
+    margin-left: 2rem;
+  }
+}

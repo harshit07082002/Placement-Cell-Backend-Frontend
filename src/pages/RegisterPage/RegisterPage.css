@@ -1,0 +1,55 @@
+#register-card{
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+#register-bootstrap-card{
+  padding: 2rem;
+}
+#register-heading{
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: rgba(0, 0, 0, 0.797);
+}
+.group-batch{
+  display: flex;
+  justify-content: space-between;
+}
+#formBasicSemester{
+  margin-right: 5rem;
+}
+.error{
+  color: red;
+}
+#register-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.already-acc{
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+.already-acc button{
+  min-width: 11rem;
+}
+@media screen and (max-width: 685px) {
+  #register-bootstrap-card{
+    width: 30rem !important;
+  }
+}
+@media screen and (max-width: 496px) {
+  #register-bootstrap-card{
+    width: 20rem !important;
+  }
+}
+@media screen and (max-width: 348px) {
+  .group-batch{
+    flex-direction: column;
+  }
+  #register-bootstrap-card{
+    width: 15rem !important;
+  }
+}

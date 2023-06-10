@@ -1,0 +1,21 @@
+.admin-login{
+  display: flex;
+  background-color: rgb(236,240,245);
+}
+.nav-item{
+  margin-top: 2rem;
+  height: 87vh;
+}
+#sidenav{
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background-color: rgb(248,249,250) !important;
+}
+.container{
+  display: flex;
+}
+#admin{
+  margin-left: 0.5rem;
+  font-weight: 600;
+}

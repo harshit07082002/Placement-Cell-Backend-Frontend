@@ -1,0 +1,93 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+main{
+  /* padding-bottom: 25rem; */
+}
+#home-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+}
+#front-image{
+  width: 50rem;
+  /* height: 300vh; */
+}
+#home-container img {
+  margin-top: 2rem;
+}
+#placement-heading{
+  display: flex;
+  margin-top: 2rem;
+}
+#placement-heading h1{
+  margin-right: 1rem;
+  color: rgb(55, 53, 53);
+}
+#placement-heading-right{
+  color: rgb(87, 176, 217) !important;
+}
+#home-container h5{
+  color: rgb(84, 78, 78);
+}
+#are-you{
+  margin-bottom: 1px;
+  font-size: smaller;
+  color: rgb(76, 73, 73);
+}
+.cards{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;
+}
+#student-card{
+  margin-right: 5rem;
+}
+#image{
+  height: 10rem;
+}
+@media screen and (max-width: 850px) {
+  #front-image {
+    width: 40rem;
+  }
+}
+@media screen and (max-width: 777px) {
+  #front-image {
+    width: 40rem;
+  }
+  #student-card{
+    margin-right: 0rem;
+  }
+  #admin-card{
+    margin-top: 2rem;
+  }
+  .cards{
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 654px) {
+  #front-image {
+    width: 30rem;
+  }
+  #placement-heading h1{
+    font-size: 1.8rem;
+  }
+  #home-container h5{
+    font-size: 1rem;
+  }
+}
+@media screen and (max-width: 510px) {
+  #front-image {
+    height: 10rem !important;
+    width: 20rem !important;
+  }
+  #placement-heading h1{
+    font-size: 1rem;
+  }
+  #home-container h5{
+    font-size: 0.8rem;
+  }
+}
