@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
-import './AdminNavBar.css'
+import './StudentNavBar.css'
 import { authActions } from '../../store/authSlice';
 
 import 'rsuite/dist/rsuite.min.css';
@@ -19,7 +19,7 @@ const styles = {
   marginRight: '2rem',
 };
 
-const AdminNavBar = () => {
+const StudentNavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cookies = new Cookies();
@@ -28,12 +28,12 @@ const AdminNavBar = () => {
   const [expanded, setExpand] = useState(true);
   useEffect(() => {
     const url = window.location.pathname;
-    if (url === '/register-job') {
+    if (url === '/profile') {
       setActiveKey('3');
-    } else if (url === '/placement-details') {
-      setActiveKey('4');
+    } else if (url === '/') {
+      setActiveKey('1');
     }
-    else if (url === '/profile') {
+    else if (url === '/applied-jobs') {
       setActiveKey('2');
     }
   }, [])
@@ -56,18 +56,15 @@ const AdminNavBar = () => {
         <Sidenav.Body>
           <Nav className='nav-item' onExpand={setExpand} onSelect={setActiveKey} activeKey={activeKey}>
             <Nav.Item eventKey="1" onClick={() => navigate('/')} icon={<DashboardIcon />}>
-              Dashboard
+              Available Jobs
             </Nav.Item>
-            <Nav.Item eventKey="2" onClick={() => navigate('/profile')} icon={<GroupIcon />}>
+            <Nav.Item eventKey="2" onClick={() => navigate('/applied-jobs')} icon={<GroupIcon />}>
+              Applied Jobs
+            </Nav.Item>
+            <Nav.Item eventKey="3" onClick={() => navigate('/profile')} icon={<UserBadgeIcon />}>
               Profile
             </Nav.Item>
-            <Nav.Item eventKey="3" onClick={() => navigate('/register-job')} icon={<UserBadgeIcon />}>
-              Register Job
-            </Nav.Item>
-            <Nav.Item eventKey="4" onClick={() => navigate('/placement-details')} icon={<DetailIcon />}>
-              Placement Details
-            </Nav.Item>
-            <Nav.Item eventKey="5" onClick={logoutHandler} icon={<SignOut />}>
+            <Nav.Item eventKey="4" onClick={logoutHandler} icon={<SignOut />}>
               Logout
             </Nav.Item>
           </Nav>
@@ -78,4 +75,4 @@ const AdminNavBar = () => {
   );
 };
 
-export default AdminNavBar;
+export default StudentNavBar;

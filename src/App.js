@@ -10,10 +10,13 @@ import Cookies from 'universal-cookie';
 import { useDispatch, useSelector } from 'react-redux'
 import { authActions } from './store/authSlice';
 import AdminNavBar from './components/AdminNavBar/AdminNavBar';
+import StudentNavBar from './components/StudentNavBar/StudentNavBar';
 import RegisterJob from './components/RegisterJob/RegisterJob';
 import PlacementDetails from './components/PlacementDetails/PlacementDetails';
 import StudentDetails from './components/StudentDetails/StudentDetails';
 import JobDetails from './components/JobDetails/JobDetails';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
+import AppliedPage from './pages/AppliedPage/AppliedPage';
 
 const getStatus = async (token) => {
   const data = await axios({
@@ -47,8 +50,10 @@ const App = () => {
       <NavBar/>
       <main className={styleClass}>
           {auth.isLogin && auth.isAdmin && <AdminNavBar/>}
+          {auth.isLogin && !auth.isAdmin && <StudentNavBar/>}
           <Routes>
             <Route path="/" element={<HomePage/>} />
+            {auth.isLogin && <Route path="/profile" element={<ProfilePage/>} /> }
             <Route path="/register" element={<RegisterPage/>} />
             <Route path="/student/login" element={<LoginPage/>} />
             <Route path="/student/:enrollmentNo" element={<StudentDetails/>} />
@@ -57,6 +62,7 @@ const App = () => {
             <Route path="/about" element={<LoginPage/>} />
             {auth.isAdmin && <Route path="/register-job" element={<RegisterJob/>}/>}
             {auth.isAdmin && <Route path="/placement-details" element={<PlacementDetails/>}/>}
+            {!auth.isAdmin && auth.isLogin && <Route path="/applied-jobs" element={<AppliedPage/>}/>}
             {/* <Route path="*" element={<Error error={"No Page Found"} />} /> */}
           </Routes>
       </main>

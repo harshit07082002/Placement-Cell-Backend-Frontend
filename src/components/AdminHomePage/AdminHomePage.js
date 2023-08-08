@@ -57,6 +57,7 @@ const AdminHomePage = () => {
     }
     students_placed*=100;
     students_placed/=registered_students;
+    students_placed = Math.round(students_placed);
     changeStats(state => {
       return {registered_students,students_placed};
     })
@@ -82,7 +83,7 @@ const AdminHomePage = () => {
         </Card>
         <Card className="details-container">
           <h5>Placement Coordinators</h5>
-          <h6>1000</h6>
+          <h6>49</h6>
         </Card>
         <Card className="details-container">
           <h5>Average Package</h5>

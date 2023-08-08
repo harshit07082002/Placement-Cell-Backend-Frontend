@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import '../PlacementDetails/PlacementDetails.css';
+import '../../components/PlacementDetails/PlacementDetails.css';
 import { Card } from 'react-bootstrap';
-import LoadingScreen from '../Loader/LoadingScreen';
+import LoadingScreen from '../../components/Loader/LoadingScreen';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { Input, InputGroup } from 'rsuite';
@@ -10,7 +10,8 @@ import { Table, Button } from 'rsuite';
 import ExitIcon from '@rsuite/icons/Exit';
 import _ from 'lodash'
 import ReactDom from 'react-dom';
-import Error from '../Error/Error';
+import Error from '../../components/Error/Error';
+import jwtDecode from 'jwt-decode';
 import { NavLink } from 'react-router-dom';
 
 
@@ -34,30 +35,29 @@ const JobActionCell = ({ rowData, dataKey, onClick, ...props }) => {
       <Button
         appearance="link"
       >
-        <NavLink to={`/job/${rowData.job_id}`}><ExitIcon/></NavLink>
+        <NavLink to={`/job/${rowData.jobid}`}><ExitIcon/></NavLink>
       </Button>
     </Cell>
   );
 };
 
 const jobFilter = (value, filter) => {
-  if (value === '' || filter === '') {
+  if (value === '' || filter == '') {
     return true;
   }
   filter = filter.toLowerCase();
-  if (filter.includes(value.job_id.toLowerCase() || filter.includes(value.company.toLowerCase()))
-    || filter.includes(value.package) || filter.includes(value.job_desc.toLowerCase()) || filter.includes(value.requirements.toLowerCase())
-    || filter.includes(value.scgpa_req)) {
+  if (filter.includes(value.jobid.toLowerCase() || filter.includes(value.name.toLowerCase()))
+    || filter.includes(value.ctc) || filter.includes(value.status.toLowerCase())) {
     return true;
-  } else if(value.job_id.toLowerCase().includes(filter) || value.company.toLowerCase().includes(filter)
-    || value.job_desc.toLowerCase().includes(filter) || value.requirements.toLowerCase().includes(filter)) {
+  } else if(value.jobid.toLowerCase().includes(filter) || value.name.toLowerCase().includes(filter)
+    || value.status.toLowerCase().includes(filter)) {
     return true;
   } else {
     return false;
   }
 }
-const StudentHomePage = () => {
-  
+
+const AppliedPage = () => {
   const [inputSearch, changeInputSearch] = useState('');
   const [isStudentSelected, changeSelection] = useState(true);
   const [isLoading, changeLoadingState] = useState(false);
@@ -69,14 +69,20 @@ const StudentHomePage = () => {
   const getJobsDetails = async () => {
     const cookies = new Cookies();
     const token = cookies.get('jwt');
+    const decoded_token = jwtDecode(token);
+    const payload = {
+      id: decoded_token.id
+    }
     const data = await axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_BACKEND}/api/v1/job`,
+      method: "POST",
+      url: `${process.env.REACT_APP_BACKEND}/api/v1/job/appliedJob`,
       headers: {
       'Authorization': `token ${token}`
-      }
+      },
+      data: payload
     })
-    return data.data.data;
+    console.log(data);
+    return data.data.data.companies;
   }
 
   const getDetails = async () => {
@@ -149,12 +155,14 @@ const StudentHomePage = () => {
       clearTimeout(timeout);
     }
   }, [inputSearch])
-  
+
   return (
     <div>
       {isLoading && <LoadingScreen/>}
       {errorMsg && ReactDom.createPortal(<Error message={errorMsg}/>, document.getElementById('error-overlay'))}
-      <h3 style={{marginTop:'1rem'}}>Available Jobs</h3>
+      <h3 style={{marginTop:'1rem'}}>
+        Applied Jobs
+      </h3>
       <InputGroup className='placementDetailsSearch'>
         <Input placeholder='Search' onChange={searchDetails} value={inputSearch} />
         <InputGroup.Addon>
@@ -170,37 +178,22 @@ const StudentHomePage = () => {
             
             <Column width={250} align="center" fixed>
               <HeaderCell>Job Id</HeaderCell>
-              <Cell dataKey="job_id" />
+              <Cell dataKey="jobid" />
             </Column>
 
-            <Column width={230}>
+            <Column width={330} align='center'>
               <HeaderCell>Company</HeaderCell>
-              <Cell dataKey="company" />
+              <Cell dataKey="name" />
             </Column>
 
-            <Column width={220}>
-              <HeaderCell>Job Desc</HeaderCell>
-              <Cell dataKey="job_desc" />
-            </Column>
-
-            <Column width={220}>
-              <HeaderCell>Requirements</HeaderCell>
-              <Cell dataKey="requirements" />
-            </Column>
-
-            <Column width={200}>
+            <Column width={230} align='center'>
               <HeaderCell>Package</HeaderCell>
-              <Cell dataKey="package" />
+              <Cell dataKey="ctc" />
             </Column>
-
-            <Column width={200}>
-              <HeaderCell>CGPA Req.</HeaderCell>
-              <Cell dataKey="scgpa_req" />
-            </Column>
-
-            <Column width={200}>
-              <HeaderCell>Batch Eligible</HeaderCell>
-              <Cell dataKey="batch" />
+            
+            <Column width={358} align='center'>
+              <HeaderCell>Status</HeaderCell>
+              <Cell dataKey="status" />
             </Column>
           </Table>
         </div>
@@ -208,4 +201,4 @@ const StudentHomePage = () => {
   )
 }
 
-export default StudentHomePage
+export default AppliedPage

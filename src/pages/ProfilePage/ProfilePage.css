@@ -1,0 +1,53 @@
+#profile-card{
+  overflow-x: hidden;
+  width: 70%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+}
+.container-2{
+  display: flex;
+  padding: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+.container-2 img{
+  width: 5rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+#save-button{
+  margin: 0rem 2rem 0 5rem;
+  width: fit-content;
+  padding: 1rem;
+  height: fit-content;
+}
+.profile-container h3{
+  color: black;
+}
+.profile-container h5{
+  font-size: 0.8rem;
+}
+#combine{
+  display: flex;
+  margin-left: 2rem;
+  align-items: center;
+}
+.contain-item{
+  display: flex;
+  margin-top: 2rem;
+  margin-left: 2rem;
+  justify-content: space-between;
+}
+.contain-item h4{
+  margin-left: 2rem;
+}
+.in{
+  margin-right: 8rem;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.34);
+  padding: 5px;
+  width: 200px;
+}

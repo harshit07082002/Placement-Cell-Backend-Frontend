@@ -2,7 +2,9 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Cookies from 'universal-cookie';
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 import { NavLink } from 'react-router-dom';
 import ExitIcon from '@rsuite/icons/Exit';
 import { Table, Button as Button2 } from 'rsuite';
@@ -30,9 +32,13 @@ const StudentActionCell = ({ rowData, dataKey, onClick, ...props }) => {
 
 const JobDetails = () => {
   const {jobid} = useParams();
+  const dispatch = useDispatch();
+  const cookies = new Cookies();
+  const auth = useSelector(state => state.auth);
   const [errorMsg, changeErrorMsg] = useState(undefined);
   const [isLoading, changeLoadingState] = useState(false);
   const [jobData, changeJobData] = useState({});
+  const [successHandler, ChangesuccessHandler] = useState(undefined);
   const [dataChanged, changeData] = useState(true);
 
   const selectCandidate = async (data) => {
@@ -144,10 +150,68 @@ const JobDetails = () => {
     });
   }, [dataChanged]);
 
+  const getUserDetails = async () => {
+    changeLoadingState(true);
+    const token = cookies.get('jwt');
+    const decoded_token = jwtDecode(token);
+    const payload = {
+      id: decoded_token.id
+    }
+    const url = `${process.env.REACT_APP_BACKEND}/api/v1/student/`;
+    const data = await axios({
+      method: "POST",
+      url,
+      headers: {
+      'Authorization': `token ${token}`
+      },
+      data: payload
+    })
+    return data.data.admin;
+  }
+
+  const applyJob = async () => {
+    try {
+      changeLoadingState(true);
+      const cookies = new Cookies();
+      const token = cookies.get('jwt');
+      const data2 = await getUserDetails();
+      console.log(data2);
+      const payload = {
+        enrollmentNo: data2.enrollmentNo,
+        job_id: jobid
+      }
+      const data = await axios({
+        method: "POST",
+        url: `${process.env.REACT_APP_BACKEND}/api/v1/apply/`,
+        headers: {
+        'Authorization': `token ${token}`
+        },
+        data: payload
+      })
+      ChangesuccessHandler('Successfully Registered for the Job');
+      setTimeout(() => {
+        ChangesuccessHandler(undefined);
+      }, 4000);
+    } catch(error) {
+      errorHandler(error);
+    } finally {
+      changeLoadingState(false);
+    }
+  }
+
+  const Success = (props) => {
+    return (
+      <div className='success-message'>
+        {props.message}
+      </div>
+    )
+  }
+
   return (
     <>
       {isLoading && <LoadingScreen/>}
       {errorMsg && ReactDom.createPortal(<Error message={errorMsg}/>, document.getElementById('error-overlay'))}
+      {successHandler && ReactDom.createPortal(<Success message={successHandler}/>, document.getElementById('error-overlay'))}
       <div>
         <Card className='info-card'>
           <div className="name">
@@ -186,7 +250,7 @@ const JobDetails = () => {
               </div>
             </div>
             <hr />
-            <div >
+            {auth.isAdmin && <div >
               <h5 style={{marginTop:'1rem', marginBottom:'1rem'}}>Students Applied:</h5>
                 <Table virtualized data={jobData.applied} style={{marginLeft:'auto',marginRight:'auto'}}>
                   <Column width={60} align="center" fixed>
@@ -213,7 +277,10 @@ const JobDetails = () => {
                     <StatusActionCell/>
                   </Column>
                 </Table>
-            </div>
+            </div>}
+            {!auth.isAdmin && <div >
+                <Button style={{marginTop:'1rem'}} onClick={applyJob}>Apply</Button>
+            </div>}
         </Card>
       </div>
     </>
