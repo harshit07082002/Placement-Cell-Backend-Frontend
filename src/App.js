@@ -17,6 +17,7 @@ import StudentDetails from './components/StudentDetails/StudentDetails';
 import JobDetails from './components/JobDetails/JobDetails';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import AppliedPage from './pages/AppliedPage/AppliedPage';
+import AboutPage from './pages/AboutPage/AboutPage';
 
 const getStatus = async (token) => {
   const data = await axios({
@@ -59,7 +60,7 @@ const App = () => {
             <Route path="/student/:enrollmentNo" element={<StudentDetails/>} />
             <Route path="/job/:jobid" element={<JobDetails/>} />
             <Route path="/admin/login" element={<LoginPage/>} />
-            <Route path="/about" element={<LoginPage/>} />
+            <Route path="/about" element={<AboutPage/>} />
             {auth.isAdmin && <Route path="/register-job" element={<RegisterJob/>}/>}
             {auth.isAdmin && <Route path="/placement-details" element={<PlacementDetails/>}/>}
             {!auth.isAdmin && auth.isLogin && <Route path="/applied-jobs" element={<AppliedPage/>}/>}

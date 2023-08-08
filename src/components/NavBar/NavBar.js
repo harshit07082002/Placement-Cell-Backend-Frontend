@@ -24,7 +24,7 @@ const NavBar = (props) => {
       <Navbar bg="light" variant="primary">
         <Container>
           <NavLink to={'/'} id='nav-bar' className='underline'>
-            <Navbar.Brand>Placement Cell</Navbar.Brand>
+            <Navbar.Brand>CareerCrest</Navbar.Brand>
           </NavLink>
           {!login && <Nav className="d-flex">
             <NavDropdown title="Login" id="navbarScrollingDropdown" className='comp'>

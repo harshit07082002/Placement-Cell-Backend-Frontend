@@ -18,7 +18,7 @@ const HomePage = () => {
       {!auth.isLogin && <div id='home-container'>
         <img src={image} alt="placement cell" id='front-image'/>
         <div id='placement-heading'>
-        <h1>WELCOME TO </h1><h1 id='placement-heading-right'>PLACEMENT CELL</h1>
+        <h1>WELCOME TO </h1><h1 id='placement-heading-right'>CareerCrest</h1>
         </div>
         <h5>We Will Support You In You Entire Placement Journey</h5>
         <div className="cards">
